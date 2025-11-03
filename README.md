@@ -113,30 +113,7 @@ Open `recommendation_sys.ipynb` and run all cells. This will:
 
 ---
 
-## Using the Artifacts in an App
-
-Example (Python) of a minimal recommender using the saved pickles:
-
-```python
-import pickle
-import numpy as np
-
-anime_list = pickle.load(open("artifacts/anime_list.pkl", "rb"))
-similarity = pickle.load(open("artifacts/similarity.pkl", "rb"))
-
-def recommend_by_name(name, k=10):
-    # Find row index for the given anime name
-    idx = anime_list[anime_list["name"] == name].index[0]
-    # Sort by similarity score (descending), skip the item itself at [0]
-    neighbors = sorted(list(enumerate(similarity[idx])), key=lambda x: x[1], reverse=True)[1:k+1]
-    # Return titles and (optionally) scores
-    recs = [(int(i), float(score), anime_list.loc[i, "name"], anime_list.loc[i, "image"]) for i, score in neighbors]
-    return recs
-
-print(recommend_by_name("Naruto", k=5))
-```
-
-You can wrap this in **Streamlit/FastAPI** to serve a simple UI that lists similar titles and shows poster images.
+Wrapped this in **Streamlit** to serve a simple UI that lists similar titles and shows poster images.
 
 ---
 
